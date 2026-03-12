@@ -77,14 +77,15 @@ ul {
     top: 0;
     z-index: 100;
     border-bottom: 1px solid var(--border);
-    
 }
 
 .header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 5rem;
+    height: 7.5rem;
+    margin-left: 5rem;
+    margin-right: 5rem;
 }
 
 .logo-img {
@@ -102,11 +103,10 @@ ul {
 .nav a {
     color: var(--secondary);
     font-weight: 500;
-    transition: color .18s ease;
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.25rem;
+    gap: .6rem;
     padding: 0.5rem 0.75rem;
     font-size: 0.95rem;
 
@@ -114,7 +114,7 @@ ul {
 
 .nav-icon {
     width: 5rem;
-    height: 2.5rem;
+    height: 3.5rem;
     display: border;
     object-fit: cover;
 }
@@ -124,21 +124,14 @@ ul {
     line-height: 1;
 }
 
-.nav-icon-box {
-    width: 3.7rem;
-    height: 2.7rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--primary-light);
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
+.nav a:hover{
+    filter: brightness(0.9);
+    border-color: var(--primary);
 }
 
-.nav a:focus .nav-icon-box,
-.nav a:hover .nav-icon-box {
-    border-color: var(--primary);
-   
+.nav-icon:hover{
+    transition: .2s;
+    transform: translateY(-7px)
 }
 
 .nav-label {
@@ -190,13 +183,6 @@ ul {
     font-size: 1.5rem;
     margin-bottom: var(--spacing-sm);
     color: rgba(0,0,0);
-}
-
-.hero-buttons {
-    display: flex;
-    gap: var(--spacing-xs);
-    justify-content: center;
-    margin-top: auto
 }
 
 .carrosel{
@@ -479,6 +465,27 @@ ul {
     margin: 0 var(--spacing-xs);
 }
 
+.grafico-holder {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--gap);
+    background: var(--primary-light);
+    padding: var(--spacing-lg) var(--spacing-md);
+    border-radius: 0.5rem;
+    margin-top: var(--spacing-md);
+    
+}
+
+.grafico-box{
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background-color: var(--white);
+    border-radius: .35rem;
+
+}
+
+
 /* --- Ajustes de Responsividade --- */
 @media (max-width: 768px) {
     :root {
@@ -489,12 +496,15 @@ ul {
     .header {
         height: 8rem;
         background-color: white;
+        
     }
     .header-content {
         flex-direction: column;
         height: auto;
         padding: 1rem 0.5rem;
         gap: 0.8rem;
+
+
     }
 
     .logo-img {
