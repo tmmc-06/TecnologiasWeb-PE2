@@ -132,7 +132,7 @@ ul {
 }
 
 .nav-icon:hover{
-    transform: scale(1.15); /* scale(1.15 ou transform: translatey(-7px)*/
+    transform: scale(1.15); /* scale(1.15 ou transform:translatey(-7px)*/
 }
 
 .nav-label {
