@@ -34,6 +34,112 @@ buttons.forEach(button => { // Passo 2 - ForEach + EventListener
 
 })
 
+// Código para Bar Chart / Pie Chart
+
+/*
+PASSOS
+
+PASSO 1: Definir as variaveis constante para o tamanho do gráfico
+PASSO 2: Criar o container svg para o gráfico
+PASSO 3: Carregar os dados
+Passo 4: definir x e y do gráfico
+Passo 5: Adicionar o x e o y ao gráfico
+*/
+
+//Passo 1
+const margin = { top: 20, right: 30, bottom: 60, left: 50 };
+const width = 500 - margin.left - margin.right;
+const height = 300 - margin.top - margin.bottom;
+const tooltip = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+// Passo 2: SVG Responsivo
+const svg = d3.select("#bar-chart")
+    .append("svg")
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+// Passo 3 (yt) - conseguir os dados do ficheiro csv
+d3.csv("grafico_barras.csv").then(data => {
+    data.forEach(d => {
+        d.total = +d.total;
+    });
+
+    data.sort(function(a,b) {
+        return d3.ascending(a.total, b.total);
+    })
+    // Passo 4
+    const y = d3.scaleLinear()
+        .range([height, 0])
+        .domain([0,d3.max(data, function(d) {return d.total;})])
+
+    const x = d3.scaleBand()
+        .range([0, width])
+        .padding(0.2)
+        .domain(data.map(function(d) {return d.grafico_barras_type;}));
+
+    
+
+    svg.append("g")
+        .attr("transform", `translate(0, ${height})`)
+        .call(d3.axisBottom(x))
+        .selectAll("text")
+        .style("text-anchor", "middle");
+    // Eixo Y (Esquerda)
+    svg.append("g")
+        .call(d3.axisLeft(y).ticks(5));
+    // PASSO EXTRA: Desenhar as Barras (Sem isto, o gráfico fica vazio!)
+    svg.selectAll(".bar")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("class", "bar")
+        .attr("x", d => x(d.grafico_barras_type)) // Posição horizontal baseada no nome
+        .attr("y", d => y(d.total))               // Posição vertical baseada no valor
+        .attr("width", x.bandwidth())             // Largura da barra automática
+        .attr("height", d => height - y(d.total)) // A altura é a diferença até à base
+        .attr("fill", "#279B7A")
+
+        .attr("rx", 10)
+        .attr("ry", 10) 
+
+        .on("mouseover", function(event,d) { // Hover
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr("fill","#084C7E")
+            
+            tooltip.transition().duration(200).style("opacity",.9);
+            tooltip.html(`Na especialidade <strong>${d.grafico_barras_type}</strong> são realizadas <strong>${d.total}</strong> consultas`)
+                .style("left", (event.pageX - 10) + "px") 
+                .style("top", (event.pageY - 20) + "px");
+        })
+        .on("mousemove", function(event) {
+    
+            tooltip.style("left", (event.pageX - 10) + "px")
+               .style("top", (event.pageY - 20) + "px");
+        })
+        
+        .on("mouseout", function(){ // Volta ao normal
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr("fill","#279B7A")
+            
+                tooltip.transition().duration(500).style("opacity", 0);
+        })
+})
+        
+
+
+
+// Código para Formulário
+
 document.addEventListener('DOMContentLoaded', () => {
     const emailInput = document.getElementById('email');
     const telInput = document.getElementById('telefone');
@@ -124,7 +230,3 @@ document.addEventListener('DOMContentLoaded', () => {
     emailInput.addEventListener('input', validarFormulario);
     telInput.addEventListener('input', validarFormulario);
 });
-
-/* 
-Teste Branching 1
-*/
