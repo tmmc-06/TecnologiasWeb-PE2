@@ -109,6 +109,7 @@ ul {
     gap: .6rem;
     padding: 0.5rem 0.75rem;
     font-size: 0.95rem;
+    
 
 }
 
@@ -117,6 +118,7 @@ ul {
     height: 3.5rem;
     display: border;
     object-fit: cover;
+    transition: transform 0.3s ease-in-out, filter 0.3s ease, border-color 0.3s ease;
 }
 
 .nav a span {
@@ -130,8 +132,7 @@ ul {
 }
 
 .nav-icon:hover{
-    transition: .2s;
-    transform: translateY(-7px)
+    transform: scale(1.15); /* scale(1.15 ou transform: translatey(-7px)*/
 }
 
 .nav-label {
@@ -157,7 +158,7 @@ ul {
     text-align: left;
     min-height: 90vh;
     background: var(--bg-dark);
-    color: rgba(0,0,0);
+    color: var(--white);
     overflow: hidden;
 }
 
@@ -182,7 +183,7 @@ ul {
 .hero p {
     font-size: 1.5rem;
     margin-bottom: var(--spacing-sm);
-    color: rgba(0,0,0);
+    color: var(--white);
 }
 
 .carrosel{
@@ -238,6 +239,15 @@ ul {
 
 [data-carrosel-button]:hover {
     background: rgba(255, 255, 255, .15);
+}
+
+.carrosel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%);
+    z-index: 1;
+    pointer-events: none;
 }
 
 .btn {
