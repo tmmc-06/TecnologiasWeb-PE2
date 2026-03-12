@@ -495,7 +495,78 @@ ul {
     padding: 1.5rem;
     background-color: var(--white);
     border-radius: .35rem;
+}
+.grafico-box p{
+    color: var(--secondary);
+    font-weight: 500;
+    text-align: center;
+    font-size: 1.1rem;
+}
 
+.tooltip-style {
+    position: absolute;
+    background: white;
+    border: 2px solid var(--primary);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    display: none;
+    pointer-events: none;
+    width: 220px; 
+    z-index: 1000;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#d3-investigacao {
+    position: relative; 
+}
+
+
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    z-index: 2000;
+    transition: all 0.4s ease;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+}
+
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+
+.back-to-top {
+    background-color: var(--secondary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+
+.back-to-top.on-dark-bg {
+    background-color: var(--primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(39, 155, 122, 0.4);
+}
+
+.back-to-top:hover {
+    transform: scale(1.1);
 }
 
 .bar {
@@ -802,4 +873,5 @@ ul {
         width: 2rem;
         height: 2rem;
     }
-}
+
+}  
