@@ -568,7 +568,62 @@ ul {
 .back-to-top:hover {
     transform: scale(1.1);
 }
+.section-extra-info {
+    padding: 2rem 0;
+    background-color: var(--bg-light);
+}
 
+.btn-moderno-revelar {
+    background-color: transparent;
+    border: 2px solid var(--secondary);
+    color: var(--secondary);
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-moderno-revelar:hover {
+    background-color: var(--secondary);
+    color: white;
+    box-shadow: 0 5px 15px var(--secondary);
+}
+
+
+.revelar-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+    opacity: 0;
+}
+
+.revelar-wrapper.active {
+    max-height: 1000px; 
+    opacity: 1;
+    margin-top: 2rem;
+}
+
+.revelar-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    border-left: 5px solid var(--primary);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.grid-extra {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.extra-item h4 {
+    color: var(--secondary);
+    margin-bottom: 0.5rem;
+}
 .bar {
     cursor: pointer;
 }
