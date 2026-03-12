@@ -1,3 +1,4 @@
+
 /*
 Carrosel
 1º Criar a constante buttons
@@ -125,6 +126,112 @@ document.addEventListener('DOMContentLoaded', () => {
     telInput.addEventListener('input', validarFormulario);
 });
 
-/* 
-Teste Branching 1
-*/
+function criarGraficoD3() {
+    const container = document.getElementById("d3-investigacao");
+    const tooltip = document.getElementById("tooltip-caca");
+    if (!container || !tooltip) return;
+    const dados = [
+        { area: "Biomédica", valor: 40, desc: "Transforma descobertas em tratamentos práticos." },
+        { area: "Ensino", valor: 25, desc: "Doutoramentos para reter talento nos Açores." },
+        { area: "Digital", valor: 20, desc: "Telemedicina para ligar as 9 ilhas." },
+        { area: "Genética", valor: 15, desc: "Estudo do isolamento populacional açoriano." }
+    ];
+
+    const width = 250;
+    const height = 250;
+    const radius = Math.min(width, height) / 2 - 20;
+
+    const svg = d3.select("#d3-investigacao")
+        .append("svg")
+        .attr("width", "100%")
+        .attr("height", height)
+        .attr("viewBox", `0 0 ${width} ${height}`)
+        .append("g")
+        .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+    const color = d3.scaleOrdinal()
+        .domain(dados.map(d => d.area))
+        .range(["#279B7A", "#084C7E", "#45b39d", "#1c5d99"]);
+
+    const pie = d3.pie().value(d => d.valor).sort(null);
+    const arc = d3.arc().innerRadius(radius * 0.5).outerRadius(radius);
+    const arcOver = d3.arc().innerRadius(radius * 0.5).outerRadius(radius + 8);
+
+    const path = svg.selectAll("path")
+        .data(pie(dados))
+        .enter()
+        .append("path")
+        .attr("fill", d => color(d.data.area))
+        .attr("d", arc)
+        .attr("stroke", "white")
+        .style("stroke-width", "2px")
+        .style("cursor", "pointer");
+-
+
+        path.on("click", function(event, d) {
+        event.stopPropagation(); 
+
+        tooltip.style.display = "block";
+        tooltip.style.opacity = "1";
+        tooltip.innerHTML = `
+            <div style="color: var(--primary); font-weight: bold;">${d.data.area}</div>
+            <div style="font-size: 1.2rem; font-weight: bold;">${d.data.valor}%</div>
+            <div style="font-size: 0.85rem; margin-top:5px;">${d.data.desc}</div>
+        `;
+        tooltip.style.left = (event.offsetX + 15) + "px";
+        tooltip.style.top = (event.offsetY + 15) + "px";
+
+
+        path.transition().duration(200).style("opacity", 0.3).attr("d", arc);
+        d3.select(this).transition().duration(200).style("opacity", 1).attr("d", arcOver);
+    });
+    document.addEventListener("mousedown", (e) => {
+
+        if (e.target.tagName !== 'path') {
+            tooltip.style.opacity = "0";
+            setTimeout(() => { tooltip.style.display = "none"; }, 300);
+            
+            path.transition().duration(200)
+                .style("opacity", 1)
+                .attr("d", arc);
+        }
+    });
+}
+document.addEventListener('DOMContentLoaded', criarGraficoD3);
+
+
+function initScrollTop() {
+    const btn = document.getElementById("backToTop");
+    
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 400) {
+            btn.classList.add("show");
+        } else {
+            btn.classList.remove("show");
+        }
+
+        const heroSection = document.getElementById("inicio");
+        const footerSection = document.querySelector(".footer");
+        const heroRect = heroSection.getBoundingClientRect();
+        const footerRect = footerSection.getBoundingClientRect();
+        const isOverDark = (heroRect.bottom > 50) || (footerRect.top < window.innerHeight - 50);
+
+        if (isOverDark) {
+            btn.classList.add("on-dark-bg");
+        } else {
+            btn.classList.remove("on-dark-bg");
+        }
+    });
+
+    btn.addEventListener("click", () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    initScrollTop();
+});
