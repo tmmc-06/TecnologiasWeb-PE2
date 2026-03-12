@@ -235,3 +235,25 @@ function initScrollTop() {
 document.addEventListener('DOMContentLoaded', () => {
     initScrollTop();
 });
+
+
+function initRevelarConteudo() {
+    const btn = document.getElementById('btn-revelar');
+    const content = document.getElementById('conteudo-escondido');
+
+    if (!btn || !content) return;
+
+    btn.addEventListener('click', () => {
+        content.classList.toggle('active');
+
+        if (content.classList.contains('active')) {
+            btn.innerText = 'Mostrar Menos';
+        } else {
+            btn.innerText = 'Saber Mais sobre o Impacto do CACA';
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initRevelarConteudo();
+});
