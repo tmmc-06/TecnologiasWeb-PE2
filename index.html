@@ -10,6 +10,10 @@
 
 <body>
 
+  <button id="backToTop" class="back-to-top" aria-label="Voltar ao topo">
+    <img src="icones/Cima.png" alt="Ícone Voltar ao Topo">
+  </button>
+
   <header class="header">
     <div class="header-content">
       <a href="#" class="logo">
@@ -101,10 +105,12 @@
       <div class ="grafico-box">
         <p>TTESTSETESTTS</p>
       </div>
-      <div class ="grafico-box">
-        <p>TETESTETESTES</p>
+      <div class ="grafico-box" id="d3-investigacao">
+        <p >
+          Distribuição de Áreas de Investigação
+        </p>
+        <div id="tooltip-caca" class="tooltip-style"></div>
       </div>
-
     </div>
   </section>
 
@@ -279,7 +285,8 @@
       </div>
     </div>
   </footer>
-  <script src="javascriptsite.js" defer></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script  src="javascriptsite.js" defer></script>
 
 </body>
 
