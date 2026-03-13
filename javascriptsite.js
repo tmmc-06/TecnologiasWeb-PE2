@@ -142,6 +142,25 @@ d3.csv("grafico_barras.csv").then(data => {
 // Código para Formulário
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- 1. MENU HAMBÚRGUER (ADICIONADO AQUI) ---
+    const menuToggle = document.querySelector('#mobile-menu');
+    const navMenu = document.querySelector('.nav');
+
+    if (menuToggle) { // Verifica se o botão existe para não dar erro no PC
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('is-active'); // Para animação do X
+        });
+    }
+
+    // Fecha o menu ao clicar num link (importante para não tapar a secção)
+    document.querySelectorAll('.nav a').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+        });
+    });
+
     const emailInput = document.getElementById('email');
     const telInput = document.getElementById('telefone');
     const extraFields = document.getElementById('extra-fields');
