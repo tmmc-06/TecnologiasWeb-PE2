@@ -76,7 +76,7 @@ ul {
     background: var(--white);
     position: sticky;
     top: 0;
-    z-index: 1000; /* Aumentado para o menu lateral ficar por cima de tudo */
+    z-index: 1000;
     border-bottom: 1px solid var(--border);
 }
 
@@ -85,10 +85,9 @@ ul {
     justify-content: space-between;
     align-items: center;
     height: 7.5rem;
-    padding: 0.1rem; /* Em vez de margin fixa, usamos padding */
+    padding: 0.1rem;
 }
 
-/* Estilo do Botão Hambúrguer (Escondido por padrão) */
 .menu-toggle {
     display: none;
 }
@@ -157,10 +156,10 @@ ul {
 
 .hero {
     position: relative;
-    min-height: 80vh; /* Altura ideal para desktop */
+    min-height: 80vh; 
     display: flex;
-    align-items: flex-start; /* Alinha o conteúdo no topo */
-    justify-content: flex-start; /* Alinha o conteúdo à esquerda */
+    align-items: flex-start; 
+    justify-content: flex-start;
     background: var(--bg-dark);
     overflow: hidden;
 }
@@ -168,7 +167,7 @@ ul {
 .hero-content {
     position: relative;
     z-index: 10;
-    margin: 2rem 0 0 5%; /* Afasta do topo e da esquerda */
+    margin: 2rem 0 0 5%;
     max-width: 600px;
     padding: 2rem;
     color: var(--white);
@@ -217,7 +216,7 @@ ul {
 .carrosel-item img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Faz a imagem preencher sem deformar */
+    object-fit: cover;
     object-position: center;
 }
 
@@ -409,14 +408,6 @@ ul {
     transform: translateY(0);
 }
 
-.input-error {
-    border-color: #d9534f !important;
-}
-
-.input-success {
-    border-color: var(--primary) !important;
-}
-
 .form-group {
     margin-bottom: 1.2rem;
 }
@@ -501,6 +492,20 @@ ul {
     font-weight: 500;
     text-align: center;
     font-size: 1.1rem;
+}
+
+
+.tooltip {
+    position: absolute;
+    padding: 8px 12px;
+    background: var(--bg-dark);
+    color: white;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    pointer-events: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+    font-family: inherit;
 }
 
 .tooltip-style {
@@ -628,23 +633,11 @@ ul {
     cursor: pointer;
 }
 
-.tooltip {
-    position: absolute;
-    padding: 8px 12px;
-    background: var(--bg-dark);
-    color: white;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    pointer-events: none; /* Evita que o rato "tropece" no próprio pop-up */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    z-index: 1000;
-    font-family: inherit;
-}
 
 
-/* --- AJUSTE PARA TABLETS (iPad Air, Nest Hub, etc.) --- */
+
 @media (max-width: 1024px) {
-    /* 1. Ajuste do Hero: Reduzir a altura para não esticar a imagem no tablet */
+
     .hero {
         min-height: 60vh;
         padding-top: 2rem;
@@ -653,15 +646,14 @@ ul {
     .carrosel-item img {
         width: 100%;
         height: 100%;
-        object-fit: cover; /* Garante que a imagem preencha o espaço sem deformar */
-        object-position: center; /* Mantém o foco da foto no meio */
+        object-fit: cover; 
+        object-position: center;
     }
 
-    /* 2. Ajuste do Header: Dar espaço para o logo e ícones não ficarem colados */
     .header-content {
         height: auto;
         padding: 1.5rem;
-        flex-wrap: wrap; /* Permite que os ícones desçam se não houver largura */
+        flex-wrap: wrap; 
         justify-content: center;
         gap: 1.5rem;
     }
@@ -671,7 +663,6 @@ ul {
         margin-bottom: 0.5rem;
     }
 
-    /* 3. Navegação: Ícones maiores e mais legíveis no tablet */
     .nav {
         width: 100%;
         justify-content: space-around;
@@ -679,7 +670,7 @@ ul {
     }
 
     .nav-icon {
-        width: 3.5rem; /* Aumentar um pouco para ser fácil de tocar no iPad */
+        width: 3.5rem;
         height: 2.5rem;
     }
 
@@ -687,9 +678,8 @@ ul {
         font-size: 0.8rem;
     }
 
-    /* 4. Texto do Hero: Centralizar para ficar equilibrado */
     .hero-content {
-        margin: 6rem 0 0 5% !important; /* Mantém a esquerda, ajusta topo */
+        margin: 6rem 0 0 5% !important;
         width: 70%;
         padding: 1.5rem;
     }
@@ -699,14 +689,13 @@ ul {
     }
 }
 
-/* --- AJUSTE TABLET (768px até 481px) --- */
 @media (max-width: 768px) {
     .menu-toggle {
-        display: none; /* Esconde o hambúrguer no tablet */
+        display: none;
     }
 
     .header {
-        height: auto; /* IMPORTANTE: Deixa o cabeçalho ajustar-se ao conteúdo */
+        height: auto; 
         padding: 0.5rem 0;
     }
 
@@ -714,7 +703,7 @@ ul {
         margin: 0 !important;
         height: auto;
         padding: 1rem;
-        flex-direction: column; /* No tablet ainda fica tudo centrado */
+        flex-direction: column;
     }
 
     .logo-img {
@@ -737,21 +726,20 @@ ul {
     }
 
     .hero {
-        min-height: 55vh !important; /* Altura equilibrada para tablet */
+        min-height: 55vh !important;
         align-items: flex-start !important;
         justify-content: flex-start !important;
         padding-top: 1.5rem;
     }
 
     .hero-content {
-        /* Texto à esquerda e no topo */
+
         margin: 5rem 0 0 5% !important;
         width: 80% !important;
         max-width: 450px;
         text-align: left !important;
         align-items: flex-start !important;
 
-        /* Fundo para contraste */
         padding: 1.5rem;
         border-radius: 0.5rem;
     }
@@ -773,68 +761,63 @@ ul {
         right: 0.5rem !important;
     }
 
-    /* Garantimos que o conteúdo do hero não bloqueie cliques acidentais nas bordas */
     .hero-content {
-        pointer-events: none; /* O container deixa passar o clique... */
+        pointer-events: none;
     }
 
     .hero-content h1, .hero-content p {
-        pointer-events: auto; /* ...mas o texto em si continua clicável/selecionável */
+        pointer-events: auto;
     }
 
-    /* Imagem do Carrossel */
     .carrosel-item img {
         object-fit: cover !important;
         object-position: center;
     }
 }
 
-/* --- AJUSTE MOBILE EXCLUSIVO (Abaixo de 480px) --- */
 @media (max-width: 480px) {
     .menu-toggle {
-        display: flex; /* Mostra o hambúrguer */
+        display: flex;
         flex-direction: column;
         gap: 5px;
         cursor: pointer;
         position: relative;
-        z-index: 1200 !important; /* Valor superior ao da .nav (1100) */
+        z-index: 1200 !important;
     }
 
-    /* 1. Estado persistente: O menu está aberto */
     .menu-toggle.is-active .bar {
-        background-color: var(--secondary); /* Muda a cor dos riscos para indicar que está ativo */
+        background-color: var(--secondary);
     }
 
-    /* 2. Feedback de clique: O utilizador sente que carregou */
     .menu-toggle:active {
-        transform: scale(0.9); /* O ícone "encolhe" ligeiramente ao toque */
+        transform: scale(0.9);
         opacity: 0.7;
     }
 
     .menu-toggle .bar {
         width: 25px;
         height: 3px;
-        background-color: var(--primary); /* Cor dos riscos */
+        background-color: var(--primary);
         border-radius: 2px;
         transition: 0.3s;
     }
 
     .header-content {
-        flex-direction: row !important; /* Logo e Botão na mesma linha */
+        flex-direction: row !important;
         justify-content: space-between;
         height: 5rem;
     }
 
-    /* Transformação em Menu Lateral */
+
     .nav {
         position: fixed;
         top: 0;
-        left: -100%; /* Escondido totalmente à esquerda */
-        width: 260px; /* Largura fixa para a barra lateral */
+        left: -100%; 
+        width: 260px;
         height: 100vh;
         background: white;
         flex-direction: column !important;
-        grid-template-columns: none; /* Mata o grid do tablet */
+        grid-template-columns: none;
         display: flex !important;
         padding: 5rem 1.5rem;
         transition: 0.6s ease;
@@ -842,13 +825,13 @@ ul {
         z-index: 1100 !important;
     }
 
-    /* Quando o menu está ativo */
+
     .nav.active {
-        left: 0; /* Desliza para dentro */
+        left: 0;
     }
 
     .nav a {
-        flex-direction: row-reverse; /* Ícone à direita do texto */
+        flex-direction: row-reverse;
         justify-content: space-between;
         width: 100%;
         border-bottom: 1px solid var(--border);
@@ -859,26 +842,25 @@ ul {
         display: block !important;
     }
 
-    /* Removemos o grid que vinha do 768px */
     .nav {
         grid-template-columns: none;
     }
 
-    /* Ajuste do Hero para não ficar debaixo do cabeçalho */
+
     .hero {
-        min-height: 50vh !important; /* Altura menor para não "comer" o ecrã todo */
+        min-height: 50vh !important;
         padding-top: 1rem;
     }
 
     .hero-content {
-        /* Mantemos a hierarquia: Topo e Esquerda */
+
         margin: 4rem 0 0 5% !important;
         width: 90% !important;
         padding: 1rem;
     }
 
     .hero h1 {
-        font-size: 1.3rem !important; /* Título compacto */
+        font-size: 1.3rem !important; 
         line-height: 1.2;
     }
 
@@ -897,7 +879,7 @@ ul {
 
     [data-carrosel-button]:active {
         background: rgba(0, 0, 0, 0.6) !important;
-        transform: translateY(-50%) scale(0.95); /* Pequeno feedback visual de clique */;
+        transform: translateY(-50%) scale(0.95);
     }
 
     .carrosel-button-prev {
@@ -908,7 +890,6 @@ ul {
         right: 0.2rem !important;
     }
 
-    /* Reduzimos a largura do texto para ele não chegar às setas se possível */
     .hero-content {
         width: 75% !important;
         pointer-events: none;

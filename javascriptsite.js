@@ -9,7 +9,6 @@ Carrosel
 6º Calcular próximo indice do array
 7º Trocar o estado ativo para a próxima imagem
 
-PASSO 6 - GEMINI UTILIZADO
  */
 
 const buttons = document.querySelectorAll(  "[data-carrosel-button]");
@@ -17,13 +16,13 @@ const buttons = document.querySelectorAll(  "[data-carrosel-button]");
 buttons.forEach(button => { // Passo 2 - ForEach + EventListener
     button.addEventListener("click",() => {
         const direcao = button.dataset.carroselButton === "next" ? 1 : -1; //Passo 3 - Constante direcao criada para saber a proxima imagem
-        // ? 1 : -1 é como um if-else statement (video yt)
+        // ? 1 : -1 é como um if-else statement
 
         const imagens = button.closest("[data-carrosel]").querySelector( "[data-imagens]" ); // Passo 4
 
         const imagem_ativa = imagens.querySelector("[data-active]") // Passo 5
 
-        let newIndex = [...imagens.children].indexOf(imagem_ativa) + direcao;
+        let newIndex = [...imagens.children].indexOf(imagem_ativa) + direcao; // Passo 6
 
         if (newIndex < 0) newIndex = imagens.children.length - 1;
         if (newIndex >= imagens.children.length) newIndex = 0;
@@ -35,16 +34,17 @@ buttons.forEach(button => { // Passo 2 - ForEach + EventListener
 
 })
 
-// Código para Bar Chart / Pie Chart
+// Código para Bar Chart 
 
 /*
 PASSOS
 
 PASSO 1: Definir as variaveis constante para o tamanho do gráfico
 PASSO 2: Criar o container svg para o gráfico
-PASSO 3: Carregar os dados
+PASSO 3: Carregar os dados (grafico_barras_csv)
 Passo 4: definir x e y do gráfico
 Passo 5: Adicionar o x e o y ao gráfico
+Passo 6: Preencher as barras
 */
 
 //Passo 1
@@ -56,7 +56,7 @@ const tooltip = d3.select("body")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-// Passo 2: SVG Responsivo
+// Passo 2:
 const svg = d3.select("#bar-chart")
     .append("svg")
     .attr("width", "100%")
@@ -65,7 +65,7 @@ const svg = d3.select("#bar-chart")
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
-// Passo 3 (yt) - conseguir os dados do ficheiro csv
+// Passo 3
 d3.csv("grafico_barras.csv").then(data => {
     data.forEach(d => {
         d.total = +d.total;
@@ -74,7 +74,7 @@ d3.csv("grafico_barras.csv").then(data => {
     data.sort(function(a,b) {
         return d3.ascending(a.total, b.total);
     })
-    // Passo 4
+// Passo 4
     const y = d3.scaleLinear()
         .range([height, 0])
         .domain([0,d3.max(data, function(d) {return d.total;})])
@@ -85,25 +85,25 @@ d3.csv("grafico_barras.csv").then(data => {
         .domain(data.map(function(d) {return d.grafico_barras_type;}));
 
     
-
+// Passo 5: x
     svg.append("g")
         .attr("transform", `translate(0, ${height})`)
         .call(d3.axisBottom(x))
         .selectAll("text")
         .style("text-anchor", "middle");
-    // Eixo Y (Esquerda)
+// Passo 5: y
     svg.append("g")
         .call(d3.axisLeft(y).ticks(5));
-    // PASSO EXTRA: Desenhar as Barras (Sem isto, o gráfico fica vazio!)
+// Passo 6   
     svg.selectAll(".bar")
         .data(data)
         .enter()
         .append("rect")
         .attr("class", "bar")
-        .attr("x", d => x(d.grafico_barras_type)) // Posição horizontal baseada no nome
-        .attr("y", d => y(d.total))               // Posição vertical baseada no valor
-        .attr("width", x.bandwidth())             // Largura da barra automática
-        .attr("height", d => height - y(d.total)) // A altura é a diferença até à base
+        .attr("x", d => x(d.grafico_barras_type)) 
+        .attr("y", d => y(d.total))               
+        .attr("width", x.bandwidth())             
+        .attr("height", d => height - y(d.total)) 
         .attr("fill", "#279B7A")
 
         .attr("rx", 10)
