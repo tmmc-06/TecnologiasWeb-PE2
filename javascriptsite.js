@@ -120,6 +120,7 @@ d3.csv("grafico_barras.csv").then(data => {
                 .style("left", (event.pageX - 10) + "px") 
                 .style("top", (event.pageY - 20) + "px");
         })
+
         .on("mousemove", function(event) {
     
             tooltip.style("left", (event.pageX - 10) + "px")
@@ -162,19 +163,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if(emailInput) emailInput.addEventListener('input', validarFormulario);
     if(telInput) telInput.addEventListener('input', validarFormulario);
 
-    // Evento de Submissão - Aqui é onde guardamos na lista
+
     if (contactForm) {
         contactForm.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // Só guarda se houver um contacto validado
+            // So vai guardar no array se tiver um contacto validado
             if (window.ultimoContactoValidado) {
                 baseDadosContactos.push(window.ultimoContactoValidado);
                 console.log("Lista de Contactos Atualizada:", baseDadosContactos);
-                alert(`Sucesso! O contacto de ${window.ultimoContactoValidado.pais} foi guardado.`);
+                alert(`Sucesso! A mensagem foi enviada!`);
             }
 
-            // Limpar formulário e estados
+            // Se o contacto ja for validado, a mensagem é enviada e depois reseta para Portugal
             contactForm.reset();
             nomePaisLabel.innerText = "Portugal";
             extraFields.style.opacity = '0';
@@ -185,15 +186,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Ouvintes para validação em tempo real
+    // Valida o que está a ser colocado
     [nomeInput, emailInput, telInput, areaCodeSelect].forEach(el => {
         if(el) el.addEventListener('input', validarFormulario);
     });
 
-    // Iniciar outros componentes
-    initScrollTop();
-    initRevelarConteudo();
-    criarGraficoD3();
+
 });
 
     
@@ -201,22 +199,22 @@ document.addEventListener('DOMContentLoaded', () => {
 const menuToggle = document.querySelector('#mobile-menu');
 const navMenu = document.querySelector('.nav');
 
-if (menuToggle) { // Verifica se o botão existe para não dar erro no PC
+if (menuToggle) { // 
     menuToggle.addEventListener('click', () => {
         navMenu.classList.toggle('active');
-        menuToggle.classList.toggle('is-active'); // Para animação do X
+        menuToggle.classList.toggle('is-active');
     });
 }
 
-// Fecha o menu ao clicar num link (importante para não tapar a secção)
+// Fecha o menu ao clicar num botao do header
 document.querySelectorAll('.nav a').forEach(link => {
     link.addEventListener('click', () => {
-        navMenu.classList.remove('active'); // Fecha o menu lateral
-        menuToggle.classList.remove('is-active'); // A cor volta para Verde
+        navMenu.classList.remove('active');
+        menuToggle.classList.remove('is-active');
     });
 });
     
-// 1. Definição de regras por Area Code (Configuração Profissional)
+// Area Code
 const regrasPaises = {
     "+351": { regex: /^9[1236]\d{7}$/, erro: "9 dígitos e começar por 91, 92, 93 ou 96." }, // Portugal
     "+34":  { regex: /^[67]\d{8}$/, erro: "9 dígitos e começar por 6 ou 7." },           // Espanha
@@ -226,31 +224,28 @@ const regrasPaises = {
     "+55":  { regex: /^\d{10,11}$/, erro: "Deve conter 10 ou 11 dígitos." }             // Brasil
 };
 
-//Validação para o formulário
 function validarFormulario() {
     if (!nomeInput || !emailInput || !telInput || !areaCodeSelect) return;
     
-    const nomeValue = nomeInput.value.trim(); // Verifica se o nome não são apenas espaços
+    const nomeValue = nomeInput.value.trim();
     const emailValue = emailInput.value.trim().toLowerCase();
     const telValue = telInput.value.trim().replace(/\s/g, '');
     
-    // Captura o código e o país selecionado
+    // Pega no codigo que o utilizador escolheu
     const selectedCode = areaCodeSelect.value.trim();
     const selectedPais = areaCodeSelect.options[areaCodeSelect.selectedIndex].getAttribute('data-pais');
 
-    // 1. Atualiza o nome do país no ecrã
+    // Atualiza o nome do país no ecrã
     nomePaisLabel.innerText = selectedPais;
 
-    //validação do nome
-    const isNomeValid = nomeValue.length > 2; // Exige pelo menos 3 carateres
+    //valida o nome
+    const isNomeValid = nomeValue.length > 2; // menos 3 carateres
 
-    // --- NOVA LÓGICA DE VALIDAÇÃO ESPECÍFICA ---
     const regra = regrasPaises[selectedCode];
-    const isTelValid = regra.regex.test(telValue); // Valida contra a regra do país selecionado
-    //
+    const isTelValid = regra.regex.test(telValue); // Cada país tem a sua regra, se o telemovel nao for de acordo com a tal regra entao nao permite enviar mensagem
 
-    // Validação de email
-    // Aceita qualquer domínio, desde que tenha "@" e um "." depois
+    // Valida o email
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isEmailValid = emailRegex.test(emailValue);
 
@@ -268,7 +263,7 @@ function validarFormulario() {
     }
 
 
-    // Feedback visual do Telefone
+    // Feedback visual do Telemovel
     if (telValue.length > 0) {
         if (isTelValid) {
             telError.style.display = 'none';
@@ -288,7 +283,7 @@ function validarFormulario() {
         telInput.style.borderColor = 'var(--border)'
     }
 
-    // Lógica dos Extra Fields (Só abre se passar na regra específica do país)
+    // Se tiver tudo ok
     if (isNomeValid && isEmailValid && isTelValid) {
         const contactoAtual = {
             nome: nomeValue,
