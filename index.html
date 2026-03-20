@@ -155,7 +155,7 @@
   <section id="parceiros" class="section">
     <h2 class="section-title">Parceiros</h2>
     <div class="container">
-      <div class="cards">
+      <div class="cards"> 
         <div class="card">
           <h3>Universidade dos Açores (UAc)</h3>
           <p>É o parceiro académico por excelência. É através da UAc (especialmente a Faculdade de Ciências da Saúde)
@@ -241,10 +241,10 @@
               <p>Segunda a Sexta: 08h - 20h</p>
             </div>
           </div>
-
         </div>
 
         <form class="contact-form" id="contactForm">
+          <h3 class="form-title">Fale connosco!</h3>
           <div class="form-group">
             <label for="nome">Nome Completo</label>
             <input type="text" id="nome" placeholder="Seu nome" required>
@@ -258,8 +258,22 @@
 
           <div class="form-group">
             <label for="telefone">Telefone</label>
-            <input type="tel" id="telefone" placeholder="912345678" required>
-            <span id="tel-error" class="error-message">Introduza um número válido (9 dígitos).</span>
+            <div class="tel-container">
+                <select id="area-code" class="area-code-select">
+                    <option value="+351" data-pais="Portugal">🇵🇹 +351</option>
+                    <option value="+34" data-pais="Espanha">🇪🇸 +34</option>
+                    <option value="+33" data-pais="França">🇫🇷 +33</option>
+                    <option value="+1" data-pais="EUA/Canadá">🇺🇸 +1</option>
+                    <option value="+44" data-pais="Reino Unido">🇬🇧 +44</option>
+                    <option value="+55" data-pais="Brasil">🇧🇷 +55</option>
+                </select>
+        
+                <input type="tel" id="telefone" placeholder="912345678" required>
+            </div>
+            <div id="tel-info-box">
+                <span id="nome-pais-label" class="pais-label">Portugal</span>
+                <span id="tel-error" class="error-message">Número inválido.</span>
+            </div>
           </div>
 
           <div id="extra-fields" class="extra-fields-container">

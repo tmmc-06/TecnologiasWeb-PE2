@@ -139,118 +139,180 @@ d3.csv("grafico_barras.csv").then(data => {
 
 
 
-// Código para Formulário
+// Formulário
+let baseDadosContactos = [];
+let nomeInput, emailInput, telInput, emailError, telError, extraFields, telPaises, contactForm, areaCodeSelect, nomePaisLabel;
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. MENU HAMBÚRGUER (ADICIONADO AQUI) ---
-    const menuToggle = document.querySelector('#mobile-menu');
-    const navMenu = document.querySelector('.nav');
-
-    if (menuToggle) { // Verifica se o botão existe para não dar erro no PC
-        menuToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            menuToggle.classList.toggle('is-active'); // Para animação do X
-        });
-    }
-
-    // Fecha o menu ao clicar num link (importante para não tapar a secção)
-    document.querySelectorAll('.nav a').forEach(link => {
-        link.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-        });
-    });
-
-    const emailInput = document.getElementById('email');
-    const telInput = document.getElementById('telefone');
-    const extraFields = document.getElementById('extra-fields');
-    const emailError = document.getElementById('email-error');
-    const telError = document.getElementById('tel-error');
-    const contactForm = document.getElementById('contactForm');
-
-    contactForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        alert("Mensagem enviada com sucesso!");
-
-        contactForm.reset();
-
-        extraFields.classList.remove('show');
-
-        extraFields.style.display = 'none';
+    nomeInput = document.getElementById('nome')
+    emailInput = document.getElementById('email');
+    telInput = document.getElementById('telefone');
+    emailError = document.getElementById('email-error');
+    telError = document.getElementById('tel-error');
+    extraFields = document.getElementById('extra-fields');
+    telPaises = document.getElementById('tel-paises');
+    contactForm = document.getElementById('contactForm');
+    areaCodeSelect = document.getElementById('area-code');
+    nomePaisLabel = document.getElementById('nome-pais-label');
 
 
-        const inputs = contactForm.querySelectorAll('input');
-        inputs.forEach(input => {
-            input.classList.remove('input-success', 'input-error');
-            input.style.borderColor = 'var(--border)';
-        });
-    });
+    if(areaCodeSelect) areaCodeSelect.addEventListener('change', validarFormulario)
+    if(nomeInput) nomeInput.addEventListener('input', validarFormulario)
+    if(emailInput) emailInput.addEventListener('input', validarFormulario);
+    if(telInput) telInput.addEventListener('input', validarFormulario);
 
+    // Evento de Submissão - Aqui é onde guardamos na lista
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault();
 
-    const dominiosPermitidos = [
-        "gmail.com",
-        "outlook.com",
-        "hotmail.com",
-        "icloud.com",
-        "uac.pt",
-        "sapo.pt"
-    ];
-
-    function validarFormulario() {
-        const emailValue = emailInput.value.trim().toLowerCase();
-        const telValue = telInput.value.trim().replace(/\s/g, '');
-
-        let isEmailValid = false;
-
-
-        if (emailValue.includes("@")) {
-            const partes = emailValue.split("@");
-            const usuario = partes[0];
-            const dominio = partes[1];
-
-
-            if (usuario.length > 0 && dominiosPermitidos.includes(dominio)) {
-                isEmailValid = true;
+            // Só guarda se houver um contacto validado
+            if (window.ultimoContactoValidado) {
+                baseDadosContactos.push(window.ultimoContactoValidado);
+                console.log("Lista de Contactos Atualizada:", baseDadosContactos);
+                alert(`Sucesso! O contacto de ${window.ultimoContactoValidado.pais} foi guardado.`);
             }
-        }
 
-        const isTelValid = /^(\+351)?(9[1236]\d{7}|2\d{8})$/.test(telValue);
-
-        // Feedback do Email
-        if (emailValue.length > 0) {
-            if (!isEmailValid) {
-                emailError.textContent = "Domínio não permitido (use gmail, outlook, uac.pt, etc)";
-                emailError.style.display = 'block';
-                emailInput.style.borderColor = '#ff4d4d';
-            } else {
-                emailError.style.display = 'none';
-                emailInput.style.borderColor = '#279B7A';
-            }
-        }
-
-
-        if (telValue.length > 0) {
-            telError.style.display = isTelValid ? 'none' : 'block';
-            telInput.style.borderColor = isTelValid ? '#279B7A' : '#ff4d4d';
-        }
-
-
-        if (isEmailValid && isTelValid) {
-            extraFields.style.display = 'block';
-            setTimeout(() => extraFields.style.opacity = '1', 10);
-        } else {
+            // Limpar formulário e estados
+            contactForm.reset();
+            nomePaisLabel.innerText = "Portugal";
             extraFields.style.opacity = '0';
-            setTimeout(() => {
-                if (extraFields.style.opacity === '0') extraFields.style.display = 'none';
-            }, 500);
-        }
+            setTimeout(() => { extraFields.style.display = 'none'; }, 400);
+            
+            const inputs = contactForm.querySelectorAll('input');
+            inputs.forEach(input => { input.style.borderColor = 'var(--border)'; });
+        });
     }
 
-    emailInput.addEventListener('input', validarFormulario);
-    telInput.addEventListener('input', validarFormulario);
+    // Ouvintes para validação em tempo real
+    [nomeInput, emailInput, telInput, areaCodeSelect].forEach(el => {
+        if(el) el.addEventListener('input', validarFormulario);
+    });
+
+    // Iniciar outros componentes
+    initScrollTop();
+    initRevelarConteudo();
+    criarGraficoD3();
 });
 
+    
+// Menu hamburguer
+const menuToggle = document.querySelector('#mobile-menu');
+const navMenu = document.querySelector('.nav');
+
+if (menuToggle) { // Verifica se o botão existe para não dar erro no PC
+    menuToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        menuToggle.classList.toggle('is-active'); // Para animação do X
+    });
+}
+
+// Fecha o menu ao clicar num link (importante para não tapar a secção)
+document.querySelectorAll('.nav a').forEach(link => {
+    link.addEventListener('click', () => {
+        navMenu.classList.remove('active'); // Fecha o menu lateral
+        menuToggle.classList.remove('is-active'); // A cor volta para Verde
+    });
+});
+    
+// 1. Definição de regras por Area Code (Configuração Profissional)
+const regrasPaises = {
+    "+351": { regex: /^9[1236]\d{7}$/, erro: "9 dígitos e começar por 91, 92, 93 ou 96." }, // Portugal
+    "+34":  { regex: /^[67]\d{8}$/, erro: "9 dígitos e começar por 6 ou 7." },           // Espanha
+    "+33":  { regex: /^[67]\d{8}$/, erro: "9 dígitos e começar por 6 ou 7." },           // França
+    "+1":   { regex: /^\d{10}$/, erro: "Deve conter exatamente 10 dígitos." },          // EUA/Canadá
+    "+44":  { regex: /^7\d{9}$/, erro: "10 dígitos e começar por 7." },                // Reino Unido
+    "+55":  { regex: /^\d{10,11}$/, erro: "Deve conter 10 ou 11 dígitos." }             // Brasil
+};
+
+//Validação para o formulário
+function validarFormulario() {
+    if (!nomeInput || !emailInput || !telInput || !areaCodeSelect) return;
+    
+    const nomeValue = nomeInput.value.trim(); // Verifica se o nome não são apenas espaços
+    const emailValue = emailInput.value.trim().toLowerCase();
+    const telValue = telInput.value.trim().replace(/\s/g, '');
+    
+    // Captura o código e o país selecionado
+    const selectedCode = areaCodeSelect.value.trim();
+    const selectedPais = areaCodeSelect.options[areaCodeSelect.selectedIndex].getAttribute('data-pais');
+
+    // 1. Atualiza o nome do país no ecrã
+    nomePaisLabel.innerText = selectedPais;
+
+    //validação do nome
+    const isNomeValid = nomeValue.length > 2; // Exige pelo menos 3 carateres
+
+    // --- NOVA LÓGICA DE VALIDAÇÃO ESPECÍFICA ---
+    const regra = regrasPaises[selectedCode];
+    const isTelValid = regra.regex.test(telValue); // Valida contra a regra do país selecionado
+    //
+
+    // Validação de email
+    // Aceita qualquer domínio, desde que tenha "@" e um "." depois
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = emailRegex.test(emailValue);
+
+
+    // Feedback visual do Email
+    if (emailValue.length > 0) {
+        emailError.style.display = isEmailValid ? 'none' : 'block';
+        emailInput.style.borderColor = isEmailValid ? 'var(--primary)' : '#ff4d4d';
+    } 
+    
+    else {
+        // Se estiver vazio, esconde o erro e volta à cor original
+        emailError.style.display = 'none';
+        emailInput.style.borderColor = 'var(--border)';
+    }
+
+
+    // Feedback visual do Telefone
+    if (telValue.length > 0) {
+        if (isTelValid) {
+            telError.style.display = 'none';
+            telInput.style.borderColor = 'var(--primary)';
+        }
+    
+        else {
+        // Se estiver vazio, esconde o erro e volta à cor original
+        telError.style.display = 'block';
+        telError.innerText = `Para ${selectedPais}: ${regra.erro}`;        
+        telInput.style.borderColor = '#ff4d4d';
+        }
+    }
+
+    else {
+        telError.style.display = 'none';
+        telInput.style.borderColor = 'var(--border)'
+    }
+
+    // Lógica dos Extra Fields (Só abre se passar na regra específica do país)
+    if (isNomeValid && isEmailValid && isTelValid) {
+        const contactoAtual = {
+            nome: nomeValue,
+            email: emailValue,
+            pais: selectedPais,
+            prefixo: selectedCode,
+            numeroLocal: telValue,
+            data: new Date().toLocaleString()
+        };
+
+        window.ultimoContactoValidado = contactoAtual;
+
+        extraFields.style.display = 'block';
+        setTimeout(() => { extraFields.style.opacity = '1'; }, 10);
+    }
+
+    else{
+        extraFields.style.opacity = '0';
+        setTimeout(() => { if (extraFields.style.opacity === '0') extraFields.style.display = 'none'; }, 400);
+    }
+} 
+
+
+// Gráficos      
 function criarGraficoD3() {
     const container = document.getElementById("d3-investigacao");
     const tooltip = document.getElementById("tooltip-caca");
@@ -291,7 +353,6 @@ function criarGraficoD3() {
         .attr("stroke", "white")
         .style("stroke-width", "2px")
         .style("cursor", "pointer");
--
 
         path.on("click", function(event, d) {
         event.stopPropagation(); 
@@ -381,4 +442,4 @@ function initRevelarConteudo() {
 
 document.addEventListener('DOMContentLoaded', () => {
     initRevelarConteudo();
-});
+})

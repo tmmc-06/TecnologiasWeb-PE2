@@ -73,7 +73,7 @@ ul {
 }
 
 .header {
-    background: var(--white);
+    background-color: white;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -374,7 +374,7 @@ ul {
     line-height: 1.4;
 }
 
-.contact-form {
+.contact-form { 
     flex: 1.2;
     min-width: 350px;
     background: var(--white);
@@ -382,12 +382,62 @@ ul {
     border-radius: 1rem;
 }
 
+.form-title {
+    text-align: center;
+    color: var(--secondary);
+    font-size: 1.6rem;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    width: 100%;
+}
+
+.form-title::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: var(--primary); /* Verde do projeto */
+    margin: 8px auto 0;
+    border-radius: 2px;
+}
+
+
 .error-message {
     color: #d9534f;
     font-size: 0.8rem;
     display: none;
     margin-top: 0.3rem;
     font-weight: 500;
+}
+
+.tel-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.area-code-select {
+    width: 100px;
+    padding: 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background: var(--bg-light);
+    font-weight: bold;
+    color: var(--secondary);
+    cursor: pointer;
+}
+
+.pais-label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--primary);
+    margin-top: 5px;
+    font-weight: 700;
+}
+
+#tel-info-box {
+    min-height: 20px;
 }
 
 
@@ -690,9 +740,27 @@ ul {
 }
 
 @media (max-width: 768px) {
+    :root{
+        --spacing-2xl: 2rem; /* Reduz o respiro entre seções no mobile */
+    }
+    
     .menu-toggle {
         display: none;
     }
+
+    .menu-toggle .bar {
+        width: 25px;
+        height: 3px;
+        background-color: var(--primary); /* Verde original */
+        border-radius: 2px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Cor das barras quando o menu está aberto (Menu Aberto - Azul ou Branco) */
+    .menu-toggle.is-active .bar {
+        background-color: var(--secondary); /* Muda para o Azul do projeto */
+    }
+
 
     .header {
         height: auto; 
@@ -700,10 +768,9 @@ ul {
     }
 
     .header-content {
-        margin: 0 !important;
-        height: auto;
-        padding: 1rem;
         flex-direction: column;
+        height: auto;
+        padding: var(--spacing-sm);
     }
 
     .logo-img {
@@ -718,8 +785,19 @@ ul {
         padding: 1rem 0;
     }
 
+    .nav-icon-box {
+        width: 2.2rem;
+        height: 2.2rem;
+    }
+
+    .nav a {
+        padding: 0.2rem;
+        font-size: 0.7rem; /* Texto menor para caber em tudo */
+    }
+
     .nav-icon {
-        width: 3rem; height: 2.5rem;
+        width: 3rem; 
+        height: 2.5rem;
     }
     .nav-label {
         font-size: 0.7rem;
@@ -733,7 +811,6 @@ ul {
     }
 
     .hero-content {
-
         margin: 5rem 0 0 5% !important;
         width: 80% !important;
         max-width: 450px;
@@ -786,7 +863,7 @@ ul {
     }
 
     .menu-toggle.is-active .bar {
-        background-color: var(--secondary);
+        background-color: var(--secondary) !important;
     }
 
     .menu-toggle:active {
@@ -799,15 +876,27 @@ ul {
         height: 3px;
         background-color: var(--primary);
         border-radius: 2px;
-        transition: 0.3s;
+        transition: background-color 0.3s ease;
     }
 
     .header-content {
         flex-direction: row !important;
         justify-content: space-between;
-        height: 5rem;
+        align-items: center;
+        height: 6rem;
+        padding: 0 1.5rem;
     }
 
+    .logo {
+        flex: 1;
+        display: flex;
+        justify-content: center; /* Centra o logo no espaço restante */
+        margin-right: 25px;      /* Compensa a largura do menu-toggle para o logo ficar no centro real */
+    }
+
+    .logo-img {
+        height: 2.5rem; /* Ajuste fino do tamanho */
+    }
 
     .nav {
         position: fixed;
@@ -853,7 +942,6 @@ ul {
     }
 
     .hero-content {
-
         margin: 4rem 0 0 5% !important;
         width: 90% !important;
         padding: 1rem;
@@ -897,6 +985,58 @@ ul {
 
     .hero-content h1, .hero-content p {
         pointer-events: auto;
+    }
+
+    .contact-form {
+        min-width: 0 !important; /* Remove os 350px que estavam a esticar o form */
+        width: 100% !important;
+        padding: 1.2rem !important; /* Reduz o espaço interno para os campos terem mais ar */
+    }
+
+    .contact-wrapper {
+        padding: 1rem; /* Menos espaço à volta */
+        width: 100%;
+    }
+
+    .contact-info {
+        min-width: 100%;
+        padding: 1rem;
+    }
+
+    .tel-container {
+        display: flex !important;
+        width: 100% !important;
+        gap: 8px; /* Espaço entre o seletor e o número */
+    }
+
+    .tel-container input {
+        flex: 1 !important; /* Faz o campo de número ocupar APENAS o espaço que sobra */
+        width: 100% !important; /* Impede que o 100% empurre o campo para fora */
+        min-width: 0;
+    }
+
+    .area-code-select {
+        width: 85px !important; /* Diminui ligeiramente o seletor no mobile para dar mais espaço ao número */
+        padding: 0.8rem 0.3rem !important;
+        font-size: 0.85rem;
+    }
+
+    .info-icon-box {
+        width: 2.8rem;  /* Ícones ligeiramente menores no mobile */
+        height: 2.8rem;
+        min-width: 2.8rem;
+    }
+
+    .info-text p {
+        font-size: 0.9rem; /* Texto mais legível em ecrãs pequenos */
+    }
+
+    .back-to-top {
+        bottom: 15px; /* Mais para baixo */
+        right: 15px;  /* Mais para o canto */
+        width: 40px;  /* Um pouco menor */
+        height: 40px;
+        font-size: 18px;
     }
 
 }  
